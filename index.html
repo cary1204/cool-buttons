@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pick 2 Meme Simulator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #242323;
+      color: white;
+    }
+    .button {
+      padding: 20px 40px;
+      margin: 20px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #3f3e3e;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+.button.active {
+    background-color: limegreen;
+    color: black;
+    }
+    #caption {
+      margin-top: 40px;
+      font-size: 1.5em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>You are a student, pick what you want.</h1>
+  <button class="button" id="sleep">Sleep</button>
+  <button class="button" id="grades">Grades</button>
+  <button class="button" id="free-time">Free Time</button>
+
+  <div id="caption">Pick two and witness your fate...</div>
+
+  <script>
+    const buttons = {
+      sleep: document.getElementById('sleep'),
+      grades: document.getElementById('grades'),
+      "free-time": document.getElementById('free-time')
+    };
+
+    const caption = document.getElementById('caption');
+    let activeQueue = [];
+
+const getMemeText = (choiceA, choiceB) => {
+    const pair = [choiceA, choiceB].sort().join('+');
+    switch (pair) {
+    case "free-time+grades":
+        return "Welcome to hell, enjoy your 3AM existential crisis.";
+    case "free-time+sleep":
+        return "Living the dream: broke, well-rested, and emotionally unavailable.";
+    case "grades+sleep":
+        return "Sleep tight, stress is waiting for you.";
+    default:
+return "What even is this combo??";
+      }
+    };
+
+    Object.entries(buttons).forEach(([key, button]) => {
+      button.addEventListener('click', () => {
+        if (button.classList.contains('active')) return;
+
+if (activeQueue.length >= 2) {
+    const toDeactivate = activeQueue.shift();
+    toDeactivate.classList.remove('active');
+        }
+
+        button.classList.add('active');
+        activeQueue.push(button);
+
+        if (activeQueue.length === 2) {
+          const activeIds = activeQueue.map(btn => btn.id);
+          caption.textContent = getMemeText(...activeIds);
+        } else {
+caption.textContent = "Pick two and witness your fate...";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
